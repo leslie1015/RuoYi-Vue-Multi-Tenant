@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.SysCompanyMapper">
+    
+    <resultMap type="SysCompany" id="SysCompanyResult">
+        <result property="id"    column="id"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="address"    column="address"    />
+        <result property="phone"    column="phone"    />
+        <result property="email"    column="email"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="activeTime"    column="active_time"    />
+        <result property="activeFlag"    column="active_flag"    />
+        <result property="tempId"    column="temp_id"    />
+        <result property="comCode"    column="com_code"    />
+        <result property="tempName"    column="temp_name"    />
+        <result property="regionCodes"    column="region_codes"    />
+    </resultMap>
+
+    <sql id="selectSysCompanyVo">
+        select id, company_name, address, phone, email, create_time, active_time, active_flag, temp_id,com_code, region_codes
+         from sys_company
+    </sql>
+
+    <sql id="Base_Column">
+         id, company_name, address, phone, email, create_time, active_time, active_flag, temp_id,com_code, region_codes
+    </sql>
+
+    <select id="getByCode" parameterType="String" resultMap="SysCompanyResult">
+        select
+        <include refid="Base_Column"/>
+        from sys_company
+        where com_code = #{comCode}
+    </select>
+
+    <select id="selectSysCompanyList" parameterType="SysCompany" resultMap="SysCompanyResult">
+        select c.id, c.company_name, c.address,
+        c.phone, c.email, c.create_time,
+        c.active_time, c.active_flag, c.com_code,
+        t.name as temp_name
+        from sys_company c
+        left join sys_template t
+        on c.temp_id = t.id
+        <where>  
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="phone != null  and phone != ''"> and phone = #{phone}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="activeTime != null "> and active_time = #{activeTime}</if>
+            <if test="activeFlag != null "> and active_flag = #{activeFlag}</if>
+            <if test="tempId != null  and tempId != ''"> and temp_id = #{tempId}</if>
+            <if test="comCode != null  and comCode != ''"> and com_code = #{comCode}</if>
+            <if test="tempName != null  and tempName != ''"> and t.name = #{tempName}</if>
+            <if test="regionCodes != null  and regionCodes != ''"> and c.region_codes = #{regionCodes}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysCompanyById" parameterType="String" resultMap="SysCompanyResult">
+        <include refid="selectSysCompanyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysCompany" parameterType="SysCompany">
+        insert into sys_company
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="companyName != null and companyName != ''">company_name,</if>
+            <if test="address != null">address,</if>
+            <if test="phone != null">phone,</if>
+            <if test="email != null">email,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="activeTime != null">active_time,</if>
+            <if test="activeFlag != null">active_flag,</if>
+            <if test="tempId != null">temp_id,</if>
+            <if test="comCode != null">com_code,</if>
+            <if test="regionCodes != null and regionCodes != ''">region_codes,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="companyName != null and companyName != ''">#{companyName},</if>
+            <if test="address != null">#{address},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="activeTime != null">#{activeTime},</if>
+            <if test="activeFlag != null">#{activeFlag},</if>
+            <if test="tempId != null">#{tempId},</if>
+            <if test="comCode != null">#{comCode},</if>
+            <if test="regionCodes != null and regionCodes != ''">#{regionCodes},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysCompany" parameterType="SysCompany">
+        update sys_company
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="companyName != null and companyName != ''">company_name = #{companyName},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="activeTime != null">active_time = #{activeTime},</if>
+            <if test="activeFlag != null">active_flag = #{activeFlag},</if>
+            <if test="tempId != null">temp_id = #{tempId},</if>
+            <if test="regionCodes != null and regionCodes != ''">region_codes = #{regionCodes},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysCompanyById" parameterType="String">
+        delete from sys_company where id = #{id}
+    </delete>
+
+    <delete id="deleteSysCompanyByIds" parameterType="String">
+        delete from sys_company where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="countByComCode" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        select count(0) from sys_company where com_code = #{comCode}
+    </select>
+
+    <select id="countByTempId" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(0) from sys_company where temp_id = #{tempId}
+    </select>
+
+</mapper>

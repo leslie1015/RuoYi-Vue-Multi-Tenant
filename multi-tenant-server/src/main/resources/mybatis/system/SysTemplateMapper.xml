@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.SysTemplateMapper">
+    
+    <resultMap type="SysTemplate" id="SysTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectSysTemplateVo">
+        select id, name, remark from sys_template
+    </sql>
+
+    <select id="selectSysTemplateList" parameterType="SysTemplate" resultMap="SysTemplateResult">
+        <include refid="selectSysTemplateVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTemplateById" parameterType="java.lang.String" resultMap="SysTemplateResult">
+        <include refid="selectSysTemplateVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysTemplate" parameterType="SysTemplate">
+        insert into sys_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null and name != ''">name,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysTemplate" parameterType="SysTemplate">
+        update sys_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != ''">name = #{name},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTemplateById" parameterType="java.lang.String">
+        delete from sys_template where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTemplateByIds" parameterType="java.lang.String">
+        delete from sys_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.mapper.SysTempMenuMapper">
+
+    <resultMap type="com.ruoyi.project.system.domain.SysTempMenu" id="SysTempMenuMap">
+        <result property="tempId" column="temp_id" jdbcType="VARCHAR"/>
+        <result property="menuId" column="menu_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysTempMenuMap">
+        select
+          temp_id, menu_id
+        from sys_temp_menu
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysTempMenuMap">
+        select
+          temp_id, menu_id
+        from sys_temp_menu
+        <where>
+            <if test="tempId != null and tempId != ''">
+                and temp_id = #{tempId}
+            </if>
+            <if test="menuId != null">
+                and menu_id = #{menuId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into sys_temp_menu(temp_id, menu_id)
+        values (#{tempId}, #{menuId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update sys_temp_menu
+        <set>
+            <if test="tempId != null and tempId != ''">
+                temp_id = #{tempId},
+            </if>
+            <if test="menuId != null">
+                menu_id = #{menuId},
+            </if>
+        </set>
+        where  = #{}
+    </update>
+
+    <delete id="deleteByTempId" parameterType="java.lang.String">
+        delete from sys_temp_menu where temp_id = #{tempId, jdbcType=VARCHAR}
+    </delete>
+</mapper>
