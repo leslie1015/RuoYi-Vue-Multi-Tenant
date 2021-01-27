@@ -1,4 +1,5 @@
 # RuoYi-Vue-Multi-Tenant
+##### gitee地址：[https://gitee.com/leslie8195/ruo-yi-vue-multi-tenant](https://gitee.com/leslie8195/ruo-yi-vue-multi-tenant)
 
 #### 介绍
 基于RuoYi-Vue扩展的多租户框架（SpringBoot，Spring Security，JWT，Vue & Element 的前后端分离权限管理系统）
