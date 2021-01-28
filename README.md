@@ -81,11 +81,11 @@ multi_tenant.sql脚本中初始化了超级管理员的账号密码
 
 2.打开 租户管理-权限模板-新增，添加一个权限模板，指定模板拥有的菜单权限
 
-![超级管理员-新增权限模板](https://upload-images.jianshu.io/upload_images/13491503-1962f86cc0f43ad6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 "image-20201221160550454.png")
+![超级管理员-新增权限模板](https://images.gitee.com/uploads/images/2020/1221/165014_a69e2bdd_2024853.png "image-20201221160550454.png")
 
 3.打开 租户管理-租户列表-新增，新增一个租户，选择刚才的权限模板
 
-![超级管理员-创建租户](https://upload-images.jianshu.io/upload_images/13491503-dd01f98ee39ae83d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 "image-20201221160752827.png")
+![超级管理员-创建租户](https://images.gitee.com/uploads/images/2020/1221/165113_8a7a7217_2024853.png "image-20201221160752827.png")
 
 4.登出系统，使用刚才创建的租户账号重新登录系统，默认账号是上图中填写的手机号 13866688888，默认密码是123456.
 
@@ -93,12 +93,9 @@ multi_tenant.sql脚本中初始化了超级管理员的账号密码
 # 默认的租户密码
 sys.default.pwd=123456.
 ```
-```properties
-# 菜单下租户数据隔离，comId可以在上下文登陆用户信息中取到
- select * from order where com_id = #{comId}
-```
+
 登录后进入租户首页
-![租户管理员-首页](https://upload-images.jianshu.io/upload_images/13491503-e136200569ffca25.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240 "image-20201221161209345.png")
+![租户管理员-首页](https://images.gitee.com/uploads/images/2020/1221/165142_6393d144_2024853.png "image-20201221161209345.png")
 租户管理员可以创建角色，并且给角色分配该租户已有的权限，然后创建租户下的用户，并分配对应角色
 
 
