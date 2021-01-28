@@ -93,6 +93,10 @@ multi_tenant.sql脚本中初始化了超级管理员的账号密码
 # 默认的租户密码
 sys.default.pwd=123456.
 ```
+```sql
+# 菜单下租户数据隔离，comId可以在上下文登陆用户信息中取到
+ select * from order where com_id = #{comId}
+```
 
 登录后进入租户首页
 ![租户管理员-首页](https://images.gitee.com/uploads/images/2020/1221/165142_6393d144_2024853.png "image-20201221161209345.png")
